@@ -16,6 +16,7 @@ let mySprite = sprites.create(img`
     . . . . . 3 . 3 . 3 . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
+mySprite.setVelocity(50, 50)
 scene.cameraFollowSprite(mySprite)
 controller.moveSprite(mySprite)
 info.setScore(0)
