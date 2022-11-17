@@ -1,0 +1,18 @@
+<xml xmlns="https://developers.google.com/blockly/xml"><variables><variable type="KIND_SpriteKind" id="yp2!0?ZOPH,5%vp*-uMA">Player</variable><variable type="KIND_SpriteKind" id="ILdHSL.s9G,Ns-^{%7MI">Projectile</variable><variable type="KIND_SpriteKind" id=".BJATNqsm?G!DnpC[M=)">Food</variable><variable type="KIND_SpriteKind" id="vD;E).btS-j=0(n6ge69">Enemy</variable><variable id="wzhT9=6K;y9Ki6zIVikV">mySprite</variable><variable id="7LRWwE5VIoU=@b?LoV6J">mySprite2</variable></variables><block type="pxt-on-start" id="he+RF%tB(6XJJHE.fFn5" x="0" y="0"><statement name="HANDLER"><block type="variables_set" id="LsfxBr%}DjOr;yFa4Ren"><field name="VAR" id="wzhT9=6K;y9Ki6zIVikV">mySprite</field><value name="VALUE"><shadow xmlns="http://www.w3.org/1999/xhtml" type="math_number"><field name="NUM">0</field></shadow><block type="spritescreate" id="Aic#)_zLn{Y9^l.-EY)O"><value name="img"><shadow type="screen_image_picker" id="Bzaq4z$lp7r}}Ot07mvq"><field name="img">img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . 1 1 1 . . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . 1 3 1 3 1 . . . . . . 
+. . . . . 3 1 1 1 3 . . . . . . 
+. . . . . 3 3 3 3 3 . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . . . 3 . . . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . 1 1 1 1 1 . . . . . . 
+. . . . . 3 . 3 . 3 . . . . . . 
+. . . . . . . . . . . . . . . . 
+`</field><data>{"commentRefs":[],"fieldData":{"img":"Bzaq4z$lp7r}}Ot07mvq"}}</data></shadow></value><value name="kind"><shadow type="spritekind" id="i!6~`Bggu059ji[sda@D"><field name="MEMBER">Player</field></shadow></value></block></value><next><block type="set_current_tilemap" id="Y3sx2{De+hqEp)z~D~08"><value name="tilemap"><shadow type="tiles_tilemap_editor" id="i1N|TfdO[^W}KZE4H$d@"><field name="tilemap">tilemap`Test Arena`</field><data>{"commentRefs":[],"fieldData":{"tilemap":"level1"}}</data></shadow></value></block></next></block></statement></block><block type="gameupdate" id="CwQ:i(6FYQ-JUsDM};]n" x="580" y="-20"></block></xml>
