@@ -18,6 +18,7 @@ let mySprite = sprites.create(img`
     `, SpriteKind.Player)
 scene.cameraFollowSprite(mySprite)
 controller.moveSprite(mySprite)
+info.setScore(0)
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`Test Arena`)
 game.onUpdate(function () {
