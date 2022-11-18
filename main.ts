@@ -1,26 +1,4 @@
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (controller.dy() > 0) {
-        mySprite.sayText("down")
-    } else if (controller.dy() < 0) {
-        mySprite.sayText("up")
-    } else if (controller.dx() > 0) {
-        mySprite.sayText("right")
-    } else if (controller.dx() < 0) {
-        mySprite.sayText("left")
-    } else if (controller.dx() < 0 && controller.dy() < 0) {
-        mySprite.sayText("left-up")
-    } else if (controller.dx() < 0 && controller.dy() > 0) {
-        mySprite.sayText("left-down")
-    } else if (controller.dx() > (controller.dy() < 0)) {
-        mySprite.sayText("right-up")
-    } else if (controller.dx() > 0 && controller.dy() > 0) {
-        mySprite.sayText("right-down")
-    } else {
-    	
-    }
-})
-let mySprite: Sprite = null
-mySprite = sprites.create(img`
+let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
