@@ -5,12 +5,14 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         vectorx2 /= 1.41421356
 vectory2 /= 1.41421356
     }
+    mySprite.setVelocity(10000 * vectorx * 0.5 + mySprite.vx * 0.5, 10000 * vectory * 0.5 + mySprite.vy * 0.5)
 })
 let vectory = 0
 let vectorx = 0
 let vectory2 = 0
 let vectorx2 = 0
-let mySprite = sprites.create(img`
+let mySprite: Sprite = null
+mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
