@@ -37,15 +37,15 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         vectorx2 /= 1.41421356
 vectory2 /= 1.41421356
     }
-    mySprite.setVelocity(999999 * vectorx2 * 0.5 + mySprite.vx * 0.5, 999999 * vectory2 * 0.5 + mySprite.vy * 0.5)
+    mySprite.setVelocity(999999 * vectorx2, 999999 * vectory2)
 })
 let inDash = false
 let dashCooldown = false
 let mySprite: Sprite = null
-let vectory = 0
-let vectorx = 0
-let vectory2 = 0
 let vectorx2 = 0
+let vectory2 = 0
+let vectorx = 0
+let vectory = 0
 mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
