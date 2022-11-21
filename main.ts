@@ -1,4 +1,9 @@
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (dashCooldown) {
+        return
+    }
+    dashCooldown = true
+    inDash = true
     mySprite.setImage(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -17,29 +22,30 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . 3 . 3 . 3 . . . . . . 
         . . . . . . . . . . . . . . . . 
         `)
-    inDash = true
     timer.after(100, function () {
         mySprite.setImage(assets.image`Cooldown`)
         mySprite.setVelocity(0, 0)
         inDash = false
     })
-    timer.after(500, function () {
+    timer.after(1000, function () {
         mySprite.setImage(assets.image`Normal`)
+        dashCooldown = false
     })
-    vectorx = controller.dx()
-    vectory = controller.dy()
+    vectorx2 = controller.dx()
+    vectory2 = controller.dy()
     if (vectorx2 != 0 && vectory2 != 0) {
         vectorx2 /= 1.41421356
 vectory2 /= 1.41421356
     }
-    mySprite.setVelocity(999999 * vectorx * 0.5 + mySprite.vx * 0.5, 999999 * vectory * 0.5 + mySprite.vy * 0.5)
+    mySprite.setVelocity(999999 * vectorx2 * 0.5 + mySprite.vx * 0.5, 999999 * vectory2 * 0.5 + mySprite.vy * 0.5)
 })
 let inDash = false
+let dashCooldown = false
 let mySprite: Sprite = null
-let vectorx2 = 0
-let vectory2 = 0
-let vectorx = 0
 let vectory = 0
+let vectorx = 0
+let vectory2 = 0
+let vectorx2 = 0
 mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
