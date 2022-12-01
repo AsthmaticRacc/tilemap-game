@@ -1,12 +1,12 @@
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     setBlade(true)
     timer.after(100, function () {
         setBlade(false)
     })
 })
 
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (dashCooldown) {
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (dashCooldown || ghostInWall) {
         return
     }
     dashCooldown = true
@@ -54,6 +54,7 @@ let vectory = 0
 let vectorx = 0
 let vectory2 = 0
 let vectorx2 = 0
+let ghostInWall = false 
 mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -134,7 +135,15 @@ game.onUpdate(function () {
     
     mySprite.setVelocity(70 * vectorx * 0.5 + mySprite.vx * 0.5, 70 * vectory * 0.5 + mySprite.vy * 0.5)
     ghost.setPosition(mySprite.x + dashx * 40, mySprite.y + dashy * 40)
-
+    
+    if(tiles.tileAtLocationIsWall(tiles.getTileLocation(ghost.tilemapLocation().column,ghost.tilemapLocation().row))){
+        ghost.setImage(assets.image`GhostBlocked`)
+        ghostInWall = true
+    } else {
+        ghost.setImage(assets.image`Ghost`)
+        ghostInWall = false 
+    }
+    
     let dx = controller.dx()
     let dy = controller.dy()
     if (dx == 0 && dy == 0) {
