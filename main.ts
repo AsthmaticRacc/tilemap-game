@@ -1,9 +1,14 @@
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     setBlade(true)
+
     timer.after(100, function () {
         setBlade(false)
     })
 })
+
+namespace SpriteKind {
+    export const Ghost = SpriteKind.create()
+}
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     if (dashCooldown || ghostInWall) {
@@ -40,6 +45,12 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.setPosition(ghost.x, ghost.y)
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
+    sprite.startEffect(effects.fountain)
+    timer.after(100, function(){
+        effects.clearParticles(sprite)
+
+
+    })
     scene.cameraShake(4, 500)
 })
 function setBlade(on: boolean) {
@@ -92,7 +103,7 @@ let enemy1 = sprites.create(img`
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
     `, SpriteKind.Enemy)
-let ghost = sprites.create(assets.image`Ghost`, SpriteKind.Projectile)
+let ghost = sprites.create(assets.image`Ghost`, SpriteKind.Ghost)
 
 blade.setFlag(SpriteFlag.Invisible, true)
 blade.setFlag(SpriteFlag.Ghost, true)
@@ -147,7 +158,7 @@ game.onUpdate(function () {
     let dx = controller.dx()
     let dy = controller.dy()
     if (dx == 0 && dy == 0) {
-        // game 
+        
     } else if (dx > 0 && dy == 0) {
         blade.setImage(assets.image`bladeRight`)
     } else if (dx < 0 && dy == 0) {
