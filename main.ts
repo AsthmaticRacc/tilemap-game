@@ -6,6 +6,53 @@
     })
 })
 
+
+function spawnEnemies(){
+    let joshes = tiles.getTilesByType(img`
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f 2 f f f f 2 f 
+f f 2 f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f 2 f f f f 2 f f f f 
+f f f f f f f f f f f f f f f f 
+f 2 f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f 2 f f f f f 2 f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f 2 f f f f f f f f f f 2 f f 
+f f f f f f f 2 f f f f f f f f 
+f f f f f f f f f f f f f f f f
+`)
+    
+    for (let i = 0; i < joshes.length; i++) {
+        let josh = sprites.create(assets.image`josh`, SpriteKind.Enemy)
+        josh.setScale(1/2)
+        tiles.placeOnTile(josh, joshes[i])
+        
+        tiles.setTileAt(joshes[i], img`
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f 8 f f f f 8 f 
+f f 8 f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f 8 f f f f 8 f f f f 
+f f f f f f f f f f f f f f f f 
+f 8 f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f 8 f f f f f 8 f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f 8 f f f f f f f f f f 8 f f 
+f f f f f f f 8 f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+`)
+    }
+}
+
 namespace SpriteKind {
     export const Ghost = SpriteKind.create()
 }
@@ -45,11 +92,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.setPosition(ghost.x, ghost.y)
 })
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    sprite.startEffect(effects.fountain)
+    sprite.startEffect(effects.disintegrate)
     timer.after(100, function(){
         effects.clearParticles(sprite)
-
-
     })
     scene.cameraShake(4, 500)
 })
@@ -111,6 +156,7 @@ scene.cameraFollowSprite(mySprite)
 info.setScore(0)
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`Test Arena`)
+spawnEnemies()
 game.onUpdate(function () {
     vectorx = controller.dx()
     vectory = controller.dy()
@@ -147,7 +193,9 @@ game.onUpdate(function () {
     mySprite.setVelocity(70 * vectorx * 0.5 + mySprite.vx * 0.5, 70 * vectory * 0.5 + mySprite.vy * 0.5)
     ghost.setPosition(mySprite.x + dashx * 40, mySprite.y + dashy * 40)
     
-    if(tiles.tileAtLocationIsWall(tiles.getTileLocation(ghost.tilemapLocation().column,ghost.tilemapLocation().row))){
+    if (dashx == 0 && dashy == 0) {
+        ghost.setImage(assets.image`Empty`)
+    } else if (tiles.tileAtLocationIsWall(tiles.getTileLocation(ghost.tilemapLocation().column, ghost.tilemapLocation().row))) {
         ghost.setImage(assets.image`GhostBlocked`)
         ghostInWall = true
     } else {
