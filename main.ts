@@ -48,6 +48,8 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, oth
     sprite.startEffect(effects.fountain)
     timer.after(100, function(){
         effects.clearParticles(sprite)
+
+
     })
     scene.cameraShake(4, 500)
 })
@@ -145,9 +147,7 @@ game.onUpdate(function () {
     mySprite.setVelocity(70 * vectorx * 0.5 + mySprite.vx * 0.5, 70 * vectory * 0.5 + mySprite.vy * 0.5)
     ghost.setPosition(mySprite.x + dashx * 40, mySprite.y + dashy * 40)
     
-    if (dashx == 0 && dashy == 0) {
-        ghost.setImage(assets.image`Empty`)
-    } else if(tiles.tileAtLocationIsWall(tiles.getTileLocation(ghost.tilemapLocation().column,ghost.tilemapLocation().row))){
+    if(tiles.tileAtLocationIsWall(tiles.getTileLocation(ghost.tilemapLocation().column,ghost.tilemapLocation().row))){
         ghost.setImage(assets.image`GhostBlocked`)
         ghostInWall = true
     } else {
