@@ -6,11 +6,11 @@
     })
 })
 
-function populateEnemies(tileImg : Image, spriteImage : Image, scale : number){
+function populateEnemies(tileImg : Image, spriteImage : Image, scale : number, kind : number){
     let joshes = tiles.getTilesByType(tileImg)
 
     for (let i = 0; i < joshes.length; i++) {
-        let josh = sprites.create(spriteImage, SpriteKind.Enemy)
+        let josh = sprites.create(spriteImage, kind)
         josh.setScale(scale)
         tiles.placeOnTile(josh, joshes[i])
         tiles.setTileAt(joshes[i], img`
@@ -33,7 +33,6 @@ f f f f f f f f f f f f f f f f
 `)
     }
 }
-
 function spawnEnemies(){
     populateEnemies(img`
 f f f f f f f f f f f f f f f f 
@@ -52,15 +51,53 @@ f f f f f f f f f f f f f f f f
 f f 2 f f f f f f f f f f 2 f f 
 f f f f f f f 2 f f f f f f f f 
 f f f f f f f f f f f f f f f f
-`, assets.image`josh`, 1/2)
+`, assets.image`josh`, 1/2, SpriteKind.josh)
   
+    populateEnemies(img`
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f 7 f f f f 7 f 
+f f 7 f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f 7 f f f f 7 f f f f 
+f f f f f f f f f f f f f f f f 
+f 7 f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f 7 f f f f f 7 f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f 7 f f f f f f f f f f 7 f f 
+f f f f f f f 7 f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+`, assets.image`Jamie`, 1, SpriteKind.jamie)
 
-
-
+    populateEnemies(img`
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f 5 f f f f 5 f 
+f f 5 f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f 5 f f f f 5 f f f f 
+f f f f f f f f f f f f f f f f 
+f 5 f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f 5 f f f f f 5 f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f 5 f f f f f f f f f f 5 f f 
+f f f f f f f 5 f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+`, assets.image`Gronk`, 1, SpriteKind.gronk)
 }
 
 namespace SpriteKind {
     export const Ghost = SpriteKind.create()
+    export const jamie = SpriteKind.create()
+    export const gronk = SpriteKind.create()
+    export const josh = SpriteKind.create()
+
 }
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -163,6 +200,12 @@ info.setScore(0)
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`Test Arena`)
 spawnEnemies()
+
+let gronks = sprites.allOfKind(SpriteKind.gronk)
+for (let i = 0; i < gronks.length; i++){
+    gronks[i].follow(mySprite,50)
+}
+
 game.onUpdate(function () {
     vectorx = controller.dx()
     vectory = controller.dy()
@@ -230,4 +273,16 @@ game.onUpdate(function () {
     } else if (dx < 0 && dy < 0) {
         blade.setImage(assets.image`bladeUpLeft`)
     }
+
+    let joshes = sprites.allOfKind(SpriteKind.josh)
+    for (let i = 0; i < joshes.length; i++) {
+        if (Math.abs(joshes[i].x - mySprite.x) + Math.abs(joshes[i].y - mySprite.y) > 50)
+            joshes[i].follow(mySprite, 50)
+        else {
+            joshes[i].follow(mySprite, 0)
+
+        }
+    }
+
+
 })
