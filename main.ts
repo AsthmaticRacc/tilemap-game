@@ -6,32 +6,13 @@
     })
 })
 
+function populateEnemies(tileImg : Image, spriteImage : Image, scale : number){
+    let joshes = tiles.getTilesByType(tileImg)
 
-function spawnEnemies(){
-    let joshes = tiles.getTilesByType(img`
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f 2 f f f f 2 f 
-f f 2 f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f 2 f f f f 2 f f f f 
-f f f f f f f f f f f f f f f f 
-f 2 f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f 2 f f f f f 2 f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f 2 f f f f f f f f f f 2 f f 
-f f f f f f f 2 f f f f f f f f 
-f f f f f f f f f f f f f f f f
-`)
-    
     for (let i = 0; i < joshes.length; i++) {
-        let josh = sprites.create(assets.image`josh`, SpriteKind.Enemy)
-        josh.setScale(1/2)
+        let josh = sprites.create(spriteImage, SpriteKind.Enemy)
+        josh.setScale(scale)
         tiles.placeOnTile(josh, joshes[i])
-        
         tiles.setTileAt(joshes[i], img`
 f f f f f f f f f f f f f f f f 
 f f f f f f f f f 8 f f f f 8 f 
@@ -51,6 +32,31 @@ f f f f f f f 8 f f f f f f f f
 f f f f f f f f f f f f f f f f 
 `)
     }
+}
+
+function spawnEnemies(){
+    populateEnemies(img`
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f 2 f f f f 2 f 
+f f 2 f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f 2 f f f f 2 f f f f 
+f f f f f f f f f f f f f f f f 
+f 2 f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f 2 f f f f f 2 f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+f f 2 f f f f f f f f f f 2 f f 
+f f f f f f f 2 f f f f f f f f 
+f f f f f f f f f f f f f f f f
+`, assets.image`josh`, 1/2)
+  
+
+
+
 }
 
 namespace SpriteKind {

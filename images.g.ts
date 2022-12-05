@@ -468,7 +468,7 @@ namespace myImages {
 . . . . . . . . . . . . . . . . 
 `;
             case "image16":
-            case "joshTile":return img`
+            case "joshTile0":return img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
@@ -487,7 +487,7 @@ namespace myImages {
 . . . . . . . . . . . . . . . . 
 `;
             case "image17":
-            case "joshTile":return img`
+            case "joshTile1":return img`
 f f f f f f f f f f f f f f f f 
 f f f f f f f f f 2 f f f f 2 f 
 f f 2 f f f f f f f f f f f f f 
