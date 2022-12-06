@@ -97,6 +97,7 @@ namespace SpriteKind {
     export const jamie = SpriteKind.create()
     export const gronk = SpriteKind.create()
     export const josh = SpriteKind.create()
+    export const Blade = SpriteKind.create()
 
 }
 
@@ -105,7 +106,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         return
     }
     dashCooldown = true
-    inDash = true
     mySprite.setImage(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . 
@@ -126,7 +126,6 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         `)
     timer.after(100, function () {
         mySprite.setImage(assets.image`Cooldown`)
-        inDash = false
     })
     timer.after(1000, function () {
         mySprite.setImage(assets.image`Normal`)
@@ -145,7 +144,24 @@ function setBlade(on: boolean) {
     blade.setFlag(SpriteFlag.Ghost, !(on))
     blade.setFlag(SpriteFlag.Invisible, !(on))
 }
-let inDash = false
+
+function killEnemy(enemye:Sprite){
+    scene.cameraShake(4, 500)
+    enemye.startEffect(effects.disintegrate)
+    timer.after(100, function(){
+        enemye.destroy()
+    })
+}
+
+sprites.onOverlap(SpriteKind.Blade, SpriteKind.gronk, function(sprite: Sprite, otherSprite: Sprite) {
+    killEnemy(otherSprite)
+})
+
+sprites.onOverlap(SpriteKind.Blade, SpriteKind.josh, function (sprite: Sprite, otherSprite: Sprite) {
+    killEnemy(otherSprite)
+})
+
+
 let dashCooldown = false
 let blade: Sprite = null
 let mySprite: Sprite = null
@@ -172,7 +188,7 @@ mySprite = sprites.create(img`
     . . . . . 3 . 3 . 3 . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
-blade = sprites.create(assets.image`bladeLeft`, SpriteKind.Projectile)
+blade = sprites.create(assets.image`bladeCircle`, SpriteKind.Blade)
 let enemy1 = sprites.create(img`
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
@@ -206,6 +222,26 @@ for (let i = 0; i < gronks.length; i++){
     gronks[i].follow(mySprite,50)
 }
 
+let joshes = sprites.allOfKind(SpriteKind.josh)
+
+function postponeProjectile(josh: Sprite){
+    timer.after(1000, function () {
+        
+            
+           // console.log(josh)
+        
+        
+        let projectile = sprites.createProjectileFromSprite(assets.image`Orange`, josh, mySprite.x - josh.x, mySprite.y - josh.y)
+        
+        projectile.setScale(1/2)
+    })
+}
+
+for (let i = 0; i < joshes.length; i++) {
+    postponeProjectile(joshes[i])
+}
+
+
 game.onUpdate(function () {
     vectorx = controller.dx()
     vectory = controller.dy()
@@ -226,9 +262,6 @@ game.onUpdate(function () {
     }
     
     blade.setPosition(mySprite.x, mySprite.y)
-    if (inDash) {
-        return;
-    }
     if (vectorx != 0 && vectory != 0) {
         vectorx /= 1.41421356
         vectory /= 1.41421356
@@ -251,29 +284,7 @@ game.onUpdate(function () {
         ghost.setImage(assets.image`Ghost`)
         ghostInWall = false 
     }
-    
-    let dx = controller.dx()
-    let dy = controller.dy()
-    if (dx == 0 && dy == 0) {
         
-    } else if (dx > 0 && dy == 0) {
-        blade.setImage(assets.image`bladeRight`)
-    } else if (dx < 0 && dy == 0) {
-        blade.setImage(assets.image`bladeLeft`)
-    } else if (dx == 0 && dy > 0) {
-        blade.setImage(assets.image`bladeDown`)
-    } else if (dx == 0 && dy < 0) {
-        blade.setImage(assets.image`bladeUp`)
-    } else if (dx > 0 && dy > 0) {
-        blade.setImage(assets.image`bladeDownRight`)
-    } else if (dx < 0 && dy > 0) {
-        blade.setImage(assets.image`bladeDownLeft`)
-    } else if (dx > 0 && dy < 0) {
-        blade.setImage(assets.image`bladeUpRight`)
-    } else if (dx < 0 && dy < 0) {
-        blade.setImage(assets.image`bladeUpLeft`)
-    }
-
     let joshes = sprites.allOfKind(SpriteKind.josh)
     for (let i = 0; i < joshes.length; i++) {
         if (Math.abs(joshes[i].x - mySprite.x) + Math.abs(joshes[i].y - mySprite.y) > 50)
@@ -283,6 +294,4 @@ game.onUpdate(function () {
 
         }
     }
-
-
 })
