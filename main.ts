@@ -91,7 +91,26 @@ f f f f f f f 5 f f f f f f f f
 f f f f f f f f f f f f f f f f 
 `, assets.image`Gronk`, 1, SpriteKind.gronk)
 }
-
+scene.onOverlapTile(SpriteKind.Player, img`
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+`, function(sprite: Sprite, location: tiles.Location) {
+    hurtPlayer()
+})
 namespace SpriteKind {
     export const Ghost = SpriteKind.create()
     export const jamie = SpriteKind.create()
@@ -133,23 +152,49 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     })
     mySprite.setPosition(ghost.x, ghost.y)
 })
-sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, otherSprite) {
-    sprite.startEffect(effects.disintegrate)
-    timer.after(100, function(){
-        effects.clearParticles(sprite)
-    })
-    scene.cameraShake(4, 500)
+
+let invincible = false 
+function hurtPlayer(enemy:Sprite){
+    if(!invincible){
+        info.changeLifeBy(-1)
+        invincible = true 
+        mySprite.startEffect(effects.fire)
+        timer.after(5000, function(){
+            effects.clearParticles(mySprite)
+            invincible = false
+        })
+    }
+}
+
+sprites.onOverlap(SpriteKind.gronk, SpriteKind.Player, function (sprite, otherSprite) {
+    hurtPlayer(sprite)
 })
+
+sprites.onOverlap(SpriteKind.josh, SpriteKind.Player, function (sprite, otherSprite) {
+    hurtPlayer(sprite)
+})
+
+sprites.onOverlap(SpriteKind.jamie, SpriteKind.Player, function (sprite, otherSprite) {
+    hurtPlayer(sprite)
+})
+
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Player, function (sprite, otherSprite) {
+    hurtPlayer(sprite)
+})
+
 function setBlade(on: boolean) {
     blade.setFlag(SpriteFlag.Ghost, !(on))
     blade.setFlag(SpriteFlag.Invisible, !(on))
 }
 
 function killEnemy(enemye:Sprite){
+    enemye.setVelocity((mySprite.x - enemye.x) * -10, (mySprite.y - enemye.y) * -10)
+
     scene.cameraShake(4, 500)
-    enemye.startEffect(effects.disintegrate)
-    timer.after(100, function(){
+    enemye.startEffect(effects.disintegrate )
+    timer.after(1000, function(){
         enemye.destroy()
+        enemye.setScale(0)
     })
 }
 
@@ -160,7 +205,6 @@ sprites.onOverlap(SpriteKind.Blade, SpriteKind.gronk, function(sprite: Sprite, o
 sprites.onOverlap(SpriteKind.Blade, SpriteKind.josh, function (sprite: Sprite, otherSprite: Sprite) {
     killEnemy(otherSprite)
 })
-
 
 let dashCooldown = false
 let blade: Sprite = null
@@ -216,7 +260,7 @@ info.setScore(0)
 info.setLife(3)
 tiles.setCurrentTilemap(tilemap`Test Arena`)
 spawnEnemies()
-
+blade.setScale(1.1)
 let gronks = sprites.allOfKind(SpriteKind.gronk)
 for (let i = 0; i < gronks.length; i++){
     gronks[i].follow(mySprite,50)
@@ -226,14 +270,12 @@ let joshes = sprites.allOfKind(SpriteKind.josh)
 
 function postponeProjectile(josh: Sprite){
     timer.after(1000, function () {
-        
+        if(josh.scale !=  0){
+            let projectile = sprites.createProjectileFromSprite(assets.image`Orange`, josh, mySprite.x - josh.x, mySprite.y - josh.y)
             
-           // console.log(josh)
-        
-        
-        let projectile = sprites.createProjectileFromSprite(assets.image`Orange`, josh, mySprite.x - josh.x, mySprite.y - josh.y)
-        
-        projectile.setScale(1/2)
+            projectile.setScale(1/2)
+            postponeProjectile(josh)
+        }
     })
 }
 
