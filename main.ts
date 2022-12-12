@@ -128,7 +128,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
 
 
         mySprite.setImage(assets.image`Cooldown`)
-    timer.after(1000, function () {
+    timer.after(500, function () {
         mySprite.setImage(assets.image`Normal`)
         dashCooldown = false
     })
