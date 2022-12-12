@@ -127,7 +127,7 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
     dashCooldown = true
 
 
-        mySprite.setImage(assets.image`Cooldown`)
+    mySprite.setImage(assets.image`Cooldown`)
     timer.after(500, function () {
         mySprite.setImage(assets.image`Normal`)
         dashCooldown = false
@@ -216,6 +216,7 @@ let levels = [
     tilemap`level4`,
     tilemap`level5`,
 ]
+let currentLevel: number = 0
 
 setLevel(0)
 let joshes = sprites.allOfKind(SpriteKind.josh)
@@ -237,6 +238,9 @@ for (let i = 0; i < joshes.length; i++) {
 
 
 function setLevel(level : number){
+    if(level == 10){
+        game.over(true)
+    }
     tiles.setCurrentTilemap(levels[level])
     spawnEnemies(); 
     tiles.placeOnRandomTile(mySprite, img`
@@ -261,7 +265,7 @@ f f f f f f f f f f f f f f f f
     for (let i = 0; i < gronks.length; i++) {
         gronks[i].follow(mySprite, 50)
     }
-
+    currentLevel = level
 }
 
 
