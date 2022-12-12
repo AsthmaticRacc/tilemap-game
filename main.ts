@@ -109,7 +109,7 @@ scene.onOverlapTile(SpriteKind.Player, img`
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 `, function(sprite: Sprite, location: tiles.Location) {
-    hurtPlayer()
+    hurtPlayer(null)
 })
 namespace SpriteKind {
     export const Ghost = SpriteKind.create()
@@ -125,27 +125,9 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
         return
     }
     dashCooldown = true
-    mySprite.setImage(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . 2 2 2 . . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . 2 3 2 3 2 . . . . . . 
-        . . . . . 3 2 2 2 3 . . . . . . 
-        . . . . . 3 3 3 3 3 . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . . . 3 . . . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . 2 2 2 2 2 . . . . . . 
-        . . . . . 3 . 3 . 3 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
-    timer.after(100, function () {
+
+
         mySprite.setImage(assets.image`Cooldown`)
-    })
     timer.after(1000, function () {
         mySprite.setImage(assets.image`Normal`)
         dashCooldown = false
@@ -159,7 +141,7 @@ function hurtPlayer(enemy:Sprite){
         info.changeLifeBy(-1)
         invincible = true 
         mySprite.startEffect(effects.fire)
-        timer.after(5000, function(){
+        timer.after(500, function(){
             effects.clearParticles(mySprite)
             invincible = false
         })
@@ -190,9 +172,9 @@ function setBlade(on: boolean) {
 function killEnemy(enemye:Sprite){
     enemye.setVelocity((mySprite.x - enemye.x) * -10, (mySprite.y - enemye.y) * -10)
 
-    scene.cameraShake(4, 500)
+    scene.cameraShake(4, 313)
     enemye.startEffect(effects.disintegrate )
-    timer.after(1000, function(){
+    timer.after(213, function(){
         enemye.destroy()
         enemye.setScale(0)
     })
@@ -214,43 +196,8 @@ let vectorx = 0
 let vectory2 = 0
 let vectorx2 = 0
 let ghostInWall = false 
-mySprite = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . 1 1 1 . . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 1 3 1 3 1 . . . . . . 
-    . . . . . 3 1 1 1 3 . . . . . . 
-    . . . . . 3 3 3 3 3 . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . . . 3 . . . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 1 1 1 1 1 . . . . . . 
-    . . . . . 3 . 3 . 3 . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Player)
+mySprite = sprites.create(assets.image`Normal`, SpriteKind.Player)
 blade = sprites.create(assets.image`bladeCircle`, SpriteKind.Blade)
-let enemy1 = sprites.create(img`
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-    `, SpriteKind.Enemy)
 let ghost = sprites.create(assets.image`Ghost`, SpriteKind.Ghost)
 
 blade.setFlag(SpriteFlag.Invisible, true)
@@ -258,14 +205,19 @@ blade.setFlag(SpriteFlag.Ghost, true)
 scene.cameraFollowSprite(mySprite)
 info.setScore(0)
 info.setLife(3)
-tiles.setCurrentTilemap(tilemap`Test Arena`)
-spawnEnemies()
 blade.setScale(1.1)
-let gronks = sprites.allOfKind(SpriteKind.gronk)
-for (let i = 0; i < gronks.length; i++){
-    gronks[i].follow(mySprite,50)
-}
 
+
+let levels = [
+    tilemap`level0`,
+    tilemap`level1`,
+    tilemap`level2`,
+    tilemap`level3`,
+    tilemap`level4`,
+    tilemap`level5`,
+]
+
+setLevel(0)
 let joshes = sprites.allOfKind(SpriteKind.josh)
 
 function postponeProjectile(josh: Sprite){
@@ -281,6 +233,35 @@ function postponeProjectile(josh: Sprite){
 
 for (let i = 0; i < joshes.length; i++) {
     postponeProjectile(joshes[i])
+}
+
+
+function setLevel(level : number){
+    tiles.setCurrentTilemap(levels[level])
+    spawnEnemies(); 
+    tiles.placeOnRandomTile(mySprite, img`
+f f f f f f f f f f f f f f f f 
+f f f f f 8 8 8 8 8 8 8 f f 8 f 
+f f 8 f 8 f f f f f f f 8 f f f 
+f f f 8 f f f f f f f f f 8 f f 
+f f 8 f f f f f f f f f f f 8 f 
+f f 8 f f f 8 f f f f 8 f f 8 f 
+f f 8 f f f f f f f f f f f 8 f 
+f 8 8 f f f f f f f f f f f 8 f 
+f f 8 f f f f f f f f f f f 8 f 
+f f 8 f f 8 f f f f f 8 f f 8 f 
+f f 8 f f f f f f f f f f f 8 f 
+f f f 8 f f f f f f f f f 8 f f 
+f f f f 8 f f f f f f f 8 f f f 
+f f 8 f f 8 8 8 8 8 8 8 f 8 f f 
+f f f f f f f 8 f f f f f f f f 
+f f f f f f f f f f f f f f f f 
+`)
+    let gronks = sprites.allOfKind(SpriteKind.gronk)
+    for (let i = 0; i < gronks.length; i++) {
+        gronks[i].follow(mySprite, 50)
+    }
+
 }
 
 
