@@ -54,22 +54,22 @@ f f f f f f f f f f f f f f f f
 `, assets.image`josh`, 1/2, SpriteKind.josh)
   
     populateEnemies(img`
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f 7 f f f f 7 f 
-f f 7 f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f 7 f f f f 7 f f f f 
-f f f f f f f f f f f f f f f f 
-f 7 f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f 7 f f f f f 7 f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f f f f f f f f f f f f f f f 
-f f 7 f f f f f f f f f f 7 f f 
-f f f f f f f 7 f f f f f f f f 
-f f f f f f f f f f f f f f f f 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
+4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 
 `, assets.image`Jamie`, 1, SpriteKind.jamie)
 
     populateEnemies(img`
@@ -117,7 +117,6 @@ namespace SpriteKind {
     export const gronk = SpriteKind.create()
     export const josh = SpriteKind.create()
     export const Blade = SpriteKind.create()
-
 }
 
 controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -188,6 +187,14 @@ sprites.onOverlap(SpriteKind.Blade, SpriteKind.josh, function (sprite: Sprite, o
     killEnemy(otherSprite)
 })
 
+sprites.onOverlap(SpriteKind.Blade, SpriteKind.jamie, function (sprite: Sprite, otherSprite: Sprite) {
+    killEnemy(otherSprite)
+})
+sprites.onDestroyed(SpriteKind.jamie, function(sprite: Sprite) {
+    if(sprites.allOfKind(SpriteKind.jamie).length == 0){
+        setLevel(currentLevel + 1)
+    }
+})
 let dashCooldown = false
 let blade: Sprite = null
 let mySprite: Sprite = null
