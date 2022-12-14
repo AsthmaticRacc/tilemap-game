@@ -92,22 +92,22 @@ f f f f f f f f f f f f f f f f
 `, assets.image`Gronk`, 1, SpriteKind.gronk)
 }
 scene.onOverlapTile(SpriteKind.Player, img`
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+5 4 4 5 5 4 4 4 4 2 2 2 4 4 4 4 
+4 4 4 4 4 5 5 4 2 2 2 2 4 4 4 5 
+4 2 2 2 4 4 5 4 2 2 4 4 5 5 5 5 
+2 2 4 2 4 4 5 4 2 2 4 5 5 5 5 4 
+2 2 2 2 4 4 5 4 2 2 4 4 5 5 4 4 
+4 2 2 2 4 5 5 4 4 4 4 4 4 4 4 2 
+2 2 2 4 4 5 5 5 4 4 2 2 2 2 2 2 
+4 2 2 4 5 5 5 5 4 2 2 4 2 2 2 4 
+5 4 4 4 4 4 4 5 5 4 2 2 2 4 4 4 
+4 4 4 2 2 2 4 4 5 5 4 4 4 4 5 5 
+4 2 2 2 2 2 2 2 4 5 5 5 5 5 5 5 
+5 4 4 2 4 2 2 4 4 5 5 5 4 4 4 5 
+5 5 4 2 2 2 4 4 4 5 5 4 2 2 2 4 
+4 5 4 4 4 4 5 5 5 5 4 2 4 2 2 4 
+4 5 5 5 5 5 5 4 4 4 2 4 2 4 2 4 
+4 5 5 5 4 4 4 4 2 2 2 2 4 2 4 4 
 `, function(sprite: Sprite, location: tiles.Location) {
     hurtPlayer(null)
 })
@@ -140,7 +140,7 @@ function hurtPlayer(enemy:Sprite){
         info.changeLifeBy(-1)
         invincible = true 
         mySprite.startEffect(effects.fire)
-        timer.after(500, function(){
+        timer.after(1000, function(){
             effects.clearParticles(mySprite)
             invincible = false
         })
@@ -211,7 +211,7 @@ blade.setFlag(SpriteFlag.Invisible, true)
 blade.setFlag(SpriteFlag.Ghost, true)
 scene.cameraFollowSprite(mySprite)
 info.setScore(0)
-info.setLife(3)
+info.setLife(6)
 blade.setScale(1.1)
 
 
@@ -226,7 +226,6 @@ let levels = [
 let currentLevel: number = 0
 
 setLevel(0)
-let joshes = sprites.allOfKind(SpriteKind.josh)
 
 function postponeProjectile(josh: Sprite){
     timer.after(1000, function () {
@@ -239,9 +238,7 @@ function postponeProjectile(josh: Sprite){
     })
 }
 
-for (let i = 0; i < joshes.length; i++) {
-    postponeProjectile(joshes[i])
-}
+
 
 
 function setLevel(level : number){
@@ -273,6 +270,11 @@ f f f f f f f f f f f f f f f f
         gronks[i].follow(mySprite, 50)
     }
     currentLevel = level
+    let joshes = sprites.allOfKind(SpriteKind.josh)
+
+    for (let i = 0; i < joshes.length; i++) {
+        postponeProjectile(joshes[i])
+    }
 }
 
 
