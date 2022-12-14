@@ -216,12 +216,11 @@ blade.setScale(1.1)
 
 
 let levels = [
-    tilemap`level0`,
-    tilemap`level1`,
-    tilemap`level2`,
-    tilemap`level3`,
-    tilemap`level4`,
-    tilemap`level5`,
+    tilemap`level0d`,
+    tilemap`level1d`,
+    tilemap`level2d`,
+    tilemap`level3d`,
+    tilemap`level4d`,
 ]
 let currentLevel: number = 0
 
@@ -242,7 +241,7 @@ function postponeProjectile(josh: Sprite){
 
 
 function setLevel(level : number){
-    if(level == 10){
+    if(level == levels.length){
         game.over(true)
     }
     tiles.setCurrentTilemap(levels[level])
